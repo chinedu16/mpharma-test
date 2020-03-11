@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import "./App.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -10,9 +10,9 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import AgentProduct from './views/Modals/AddProduct'
 
 const useStyles = makeStyles({
   table: {
@@ -36,7 +36,18 @@ const rows = [
   createData("Gingerbread", 356, 16.0, 49, 3.9)
 ];
 
+
+
 function App() {
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleModalOpen = () => {
+    setOpenModal(true);
+  };
+
+  const handleModalClose = () => {
+    setOpenModal(false);
+  };
   const classes = useStyles();
   return (
     <div className="App">
@@ -54,11 +65,13 @@ function App() {
               </Typography>
             </Grid>
             <Grid item>
-              <Button color="primary" variant="contained">
+              <Button color="primary" onClick={handleModalOpen} variant="contained">
                 Add New
               </Button>
             </Grid>
           </Grid>
+
+          
         </Container>
         <Container maxWidth="lg">
           <TableContainer component={Paper}>
@@ -96,6 +109,11 @@ function App() {
           </TableContainer>
         </Container>
       </React.Fragment>
+
+      <AgentProduct
+            onClose={handleModalClose}
+            open={openModal}
+          />
     </div>
   );
 }
