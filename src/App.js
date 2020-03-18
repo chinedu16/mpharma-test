@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -12,7 +12,9 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import AgentProduct from './views/Modals/AddProduct'
+import AgentProduct from "./views/Modals/AddProduct";
+
+import { connect } from "react-redux";
 
 const useStyles = makeStyles({
   table: {
@@ -24,21 +26,19 @@ const useStyles = makeStyles({
   }
 });
 
-function createData(name, calories, fat, price, protein) {
-  return { name, calories, fat, price, protein };
-}
+// function createData(name, calories, fat, price, protein) {
+//   return { name, calories, fat, price, protein };
+// }
 
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9)
-];
+// const rows = [
+//   createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
+//   createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
+//   createData("Eclair", 262, 16.0, 24, 6.0),
+//   createData("Cupcake", 305, 3.7, 67, 4.3),
+//   createData("Gingerbread", 356, 16.0, 49, 3.9)
+// ];
 
-
-
-function App() {
+function App(props) {
   const [openModal, setOpenModal] = useState(false);
 
   const handleModalOpen = () => {
@@ -61,17 +61,19 @@ function App() {
           >
             <Grid item>
               <Typography component="h1" variant="h4">
-                Products
+                {props.name}
               </Typography>
             </Grid>
             <Grid item>
-              <Button color="primary" onClick={handleModalOpen} variant="contained">
+              <Button
+                color="primary"
+                onClick={handleModalOpen}
+                variant="contained"
+              >
                 Add New
               </Button>
             </Grid>
           </Grid>
-
-          
         </Container>
         <Container maxWidth="lg">
           <TableContainer component={Paper}>
@@ -79,21 +81,24 @@ function App() {
               <TableHead>
                 <TableRow>
                   <TableCell>Product</TableCell>
-                  <TableCell align="right">Calories</TableCell>
-                  <TableCell align="right">Fat</TableCell>
+                  
                   <TableCell align="right">Price</TableCell>
                   <TableCell align="right">Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map(row => (
+                {props.products.map(row => (
                   <TableRow key={row.name}>
                     <TableCell component="th" scope="row">
                       {row.name}
                     </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.price}</TableCell>
+                    <TableCell align="right">
+                      {row.prices.map(row =>  (
+                        <Typography >
+                          prices {row.id} = {row.price}
+                        </Typography>
+                      ))}
+                    </TableCell>
                     <TableCell align="right">
                       <Button color="primary" size="small" variant="outlined">
                         Edit
@@ -110,12 +115,16 @@ function App() {
         </Container>
       </React.Fragment>
 
-      <AgentProduct
-            onClose={handleModalClose}
-            open={openModal}
-          />
+      <AgentProduct onClose={handleModalClose} open={openModal} />
     </div>
   );
 }
 
-export default App;
+const mapStatetoProps = state => {
+  return {
+    name: state.products.name,
+    products: state.products.products
+  };
+};
+
+export default connect(mapStatetoProps)(App);

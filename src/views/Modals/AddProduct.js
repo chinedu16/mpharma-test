@@ -21,14 +21,12 @@ const useStyles = makeStyles(theme => ({
     left: "50%",
     transform: "translate(-50%, -50%)",
     outline: "none",
-    // boxShadow: theme.shadows[20],
     width: 700,
     maxHeight: "100%",
     overflowY: "auto",
     maxWidth: "100%"
   },
   container: {
-    // marginTop: theme.spacing(3),
     height: 200
   },
   fill: {
