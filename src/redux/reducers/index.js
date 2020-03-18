@@ -1,7 +1,4 @@
 import { combineReducers } from "redux";
-// import todos from './todos'
-// import visibilityFilter from './visibilityFilter'
-// import product from './product'
 import { ADD_PRODUCT } from "../actions/index";
 
 const initialState = {
@@ -59,6 +56,7 @@ const initialState = {
 };
 
 function products(state = initialState, action) {
+  console.log(action)
   switch (action.type) {
     case ADD_PRODUCT:
       return [

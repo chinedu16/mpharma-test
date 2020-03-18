@@ -14,6 +14,9 @@ import {
   Button
 } from "@material-ui/core";
 
+
+import { connect } from "react-redux";
+
 const useStyles = makeStyles(theme => ({
   root: {
     position: "absolute",
@@ -40,6 +43,7 @@ const useStyles = makeStyles(theme => ({
 
 function AddProduct({
   open,
+  props,
   onClose,
   body,
   title,
@@ -54,11 +58,10 @@ function AddProduct({
 }) {
   const classes = useStyles();
 
-  const handleSubmit = () => {
 
-  }
-
+  
   return (
+   
     <Modal
       disableBackdropClick={disableBackdropClick}
       onClose={onClose}
@@ -83,7 +86,7 @@ function AddProduct({
           <Button
             disabled={disableButton}
             color="primary"
-            onClick={handleSubmit}
+            onClick={props}
             variant="contained"
           >
             {confirmText || "Save"}
@@ -105,4 +108,10 @@ AddProduct.defaultProps = {
   onClose: () => {}
 };
 
-export default AddProduct;
+const mapDispatchtoProps = (dispatch) => {
+  return {
+    onAddName: () => dispatch({ type: "ADD_PRODUCT"})
+  }
+}
+
+export default connect(mapDispatchtoProps)(AddProduct);
